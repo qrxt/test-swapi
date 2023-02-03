@@ -1,8 +1,8 @@
 import React from "react";
-import logo from "assets/logo.png";
+import logoImage from "assets/images/logo.png";
 
 function Logo() {
-  return <img src={logo} width="100" height="50" alt="Application logo" />;
+  return <img src={logoImage} width="150" height="80" alt="Application logo" />;
 }
 
 export default Logo;
