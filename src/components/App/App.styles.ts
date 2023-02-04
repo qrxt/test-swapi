@@ -38,9 +38,14 @@ export const globalStyles = css`
   html,
   body,
   #root {
-    min-height: 100%;
+    height: 100%;
     width: 100%;
     background-color: ${colors.darkBlue};
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
   }
 
   body {

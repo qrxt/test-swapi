@@ -5,13 +5,13 @@ import VisuallyHidden from "components/VisuallyHidden";
 
 function MainPage() {
   return (
-    <div>
+    <>
       <VisuallyHidden as="h1">
         StarWars characters list application
       </VisuallyHidden>
       <Header />
       <MainSection />
-    </div>
+    </>
   );
 }
 

@@ -18,6 +18,11 @@ export const buttonStyles = (theme: ButtonTheme) => {
   return css`
     ${buttonThemes[theme]}
 
+    &:active {
+      box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.09);
+    }
+
+    cursor: pointer;
     color: ${colors.darkGray};
     font-weight: 700;
     font-size: 23px;

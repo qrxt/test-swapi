@@ -24,7 +24,11 @@ function MainSection() {
             You can find out all the information about your favorite characters
           </p>
 
-          <Button theme="orange" customStyles={mainSectionMoreButtonStyles}>
+          <Button
+            theme="orange"
+            customStyles={mainSectionMoreButtonStyles}
+            type="button"
+          >
             See more...
           </Button>
         </div>

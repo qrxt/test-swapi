@@ -6,6 +6,11 @@ export const headerStyles = css`
   min-height: 93px;
 
   box-shadow: 0px 4px 16px rgba(1, 28, 64, 0.2);
+
+  @media screen and (max-width: 900px) {
+    min-height: auto;
+    padding: 10px 0;
+  }
 `;
 
 export const headerLogoStyles = css`
@@ -19,6 +24,11 @@ export const headerContentStyles = css`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    min-height: auto;
+  }
 `;
 
 // TODO: maybe move to another component
