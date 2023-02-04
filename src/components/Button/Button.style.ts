@@ -7,11 +7,9 @@ export const buttonStyles = (theme: ButtonTheme) => {
   const buttonThemes: Record<ButtonTheme, SerializedStyles> = {
     orange: css`
       background: ${colors.orange};
-      color: red;
     `,
     green: css`
-      background: green;
-      color: blue;
+      background: ${colors.green};
     `,
   };
 
