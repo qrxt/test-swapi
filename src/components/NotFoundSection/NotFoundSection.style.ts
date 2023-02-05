@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import { colors } from "lib/theme";
-import notFoundImage from "assets/images/star.png";
 
 export const notFoundStyles = css`
   height: 100%;
@@ -15,29 +14,39 @@ export const notFoundStyles = css`
 `;
 
 export const notFoundWrapperStyles = css`
-  width: 100%;
-  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+export const notFoundImageStyles = css`
   position: absolute;
-  background: url(${notFoundImage}) center center/690px 623px no-repeat;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 490px;
+  height: 423px;
 
   @media screen and (max-width: 1200px) {
-    background: url(${notFoundImage}) center center/490px 423px no-repeat;
+    width: 490px;
+    height: 423px;
   }
 
   @media screen and (max-width: 1000px) {
-    background: url(${notFoundImage}) center center/390px 323px no-repeat;
+    width: 390px;
+    height: 323px;
   }
 
   @media screen and (max-width: 700px) {
-    background: url(/src/assets/images/star.png) center center/224px 200px
-      no-repeat;
+    width: 200px;
+    height: 176px;
   }
 `;
 
 export const notFoundTextStyles = css`
-  font-size: 700px;
+  font-size: 500px;
   font-weight: 700;
-  line-height: 818px;
+  line-height: 518px;
   color: rgba(255, 255, 255, 0.5);
   letter-spacing: 4px;
 
@@ -52,8 +61,8 @@ export const notFoundTextStyles = css`
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 200px;
-    line-height: 218px;
+    font-size: 190px;
+    line-height: 208px;
   }
 `;
 

@@ -1,21 +1,30 @@
 import { SerializedStyles } from "@emotion/react";
-import React from "react";
+import React, { ComponentProps, ElementType } from "react";
 import { buttonStyles, ButtonTheme } from "./Button.style";
 
-interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+interface ButtonOwnProps<E extends ElementType = ElementType> {
   children: React.ReactNode;
   theme: ButtonTheme;
+  as?: E;
   customStyles?: SerializedStyles;
 }
 
-// TODO: as parameter
-function Button(props: ButtonProps) {
-  const { children, theme, customStyles, ...rest } = props;
+const defaultElement = "button";
 
+export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> &
+  Omit<ComponentProps<E>, keyof ButtonOwnProps<E>>;
+
+// TODO: as parameter
+function Button<E extends ElementType = typeof defaultElement>(
+  props: ButtonProps<E>
+) {
+  const { children, theme, customStyles, as, ...rest } = props;
+
+  const TagName = as || defaultElement;
   return (
-    <button css={[buttonStyles(theme), customStyles]} {...rest}>
+    <TagName css={[buttonStyles(theme), customStyles]} {...rest}>
       {children}
-    </button>
+    </TagName>
   );
 }
 

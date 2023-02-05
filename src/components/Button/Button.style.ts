@@ -20,6 +20,9 @@ export const buttonStyles = (theme: ButtonTheme) => {
       box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.09);
     }
 
+    display: block;
+    text-align: center;
+    text-decoration: none;
     cursor: pointer;
     color: ${colors.darkGray};
     font-weight: 700;
