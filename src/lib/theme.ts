@@ -7,6 +7,11 @@ export const colors = {
   green: "#73D677",
   orange: "#FFC107",
   darkGray: "#212121",
+  gray: "#4B4B4B",
+  lightGray: "#f0f0f0",
+  cyan: "#07D6F2",
+  magenta: "#C956FF",
+  yellow: "#F5DB13",
 };
 
 export const fonts = {

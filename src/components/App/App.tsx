@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  createBrowserRouter,
-  RouteObject,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { globalStyles } from "./App.styles";
 import { Global } from "@emotion/react";
 import { routerConfig } from "lib/routing";

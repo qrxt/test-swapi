@@ -40,7 +40,6 @@ export const globalStyles = css`
   #root {
     height: 100%;
     width: 100%;
-    background-color: ${colors.darkBlue};
   }
 
   #root {
