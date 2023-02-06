@@ -10,22 +10,27 @@ import {
   menuListStyles,
   menuStyles,
 } from "./Header.style";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { routeEntries, routeNames } from "lib/routing";
 
 function Menu() {
+  const { pathname } = useLocation();
+
   return (
     <nav css={menuStyles}>
       <ul css={menuListStyles}>
-        <li css={menuItemStyles({ isSelected: true })}>
-          <Link to="#" css={menuItemLinkStyles}>
-            Home
-          </Link>
-        </li>
-        <li css={menuItemStyles()}>
-          <Link to="#" css={menuItemLinkStyles}>
-            Characters
-          </Link>
-        </li>
+        {routeEntries.map(([key, route]) => {
+          return (
+            <li
+              key={key}
+              css={menuItemStyles({ isSelected: route.path === pathname })}
+            >
+              <Link to={route.path || ""} css={menuItemLinkStyles}>
+                {routeNames[key]}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

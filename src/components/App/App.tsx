@@ -1,20 +1,17 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainPage from "components/pages/MainPage";
+import {
+  createBrowserRouter,
+  RouteObject,
+  RouterProvider,
+} from "react-router-dom";
 import { globalStyles } from "./App.styles";
 import { Global } from "@emotion/react";
-import NotFoundPage from "components/pages/NotFoundPage";
+import { routerConfig } from "lib/routing";
+
+export const routes = Object.values(routerConfig);
+const router = createBrowserRouter(routes);
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <MainPage />,
-      errorElement: <NotFoundPage />,
-      children: [],
-    },
-  ]);
-
   return (
     <>
       <Global styles={globalStyles} />
