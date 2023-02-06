@@ -21,6 +21,7 @@ export const tagStyles = (theme: TagTheme) => {
   return css`
     ${tagThemes[theme]}
 
+    padding: 0 7px;
     box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.18);
     border-radius: 11px;
     min-width: 60px;

@@ -5,7 +5,7 @@ import { cardContentStyles, cardStyles, cardTitleStyles } from "./Card.style";
 interface CardProps {
   children: React.ReactNode;
   title: string;
-  customStyles?: SerializedStyles;
+  customStyles?: SerializedStyles | SerializedStyles[];
 }
 
 function Card(props: CardProps) {

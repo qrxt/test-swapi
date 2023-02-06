@@ -3,15 +3,20 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { globalStyles } from "./App.styles";
 import { Global } from "@emotion/react";
 import { routerConfig } from "lib/routing";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export const routes = Object.values(routerConfig);
 const router = createBrowserRouter(routes);
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <>
       <Global styles={globalStyles} />
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </>
   );
 }
