@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   charactersSectionCharactersStyles,
   charactersSectionLanguageStyles,
@@ -8,23 +8,10 @@ import {
 } from "./CharactersSection.style";
 import Container from "components/Container";
 import LanguageSwitcher from "components/LanguageSwitcher";
-import { useQuery } from "react-query";
-import { Character, Gender } from "types/people";
-import { camelize } from "lib/camelize";
+import { useInfiniteQuery } from "react-query";
+import { Character } from "types/people";
 import CharactersList from "components/CharactersList";
 import { Response } from "types/response";
-
-function convertGender(character: Character) {
-  const genders: Record<string, Gender> = {
-    "n/a": Gender.NotApplicable,
-    none: Gender.NotApplicable,
-  };
-
-  return {
-    ...character,
-    gender: genders[character.gender] || character.gender,
-  };
-}
 
 type CharactersResponse = Response<Character>;
 
@@ -34,20 +21,28 @@ function fetchPeople(page = 1) {
   );
 }
 
-function prepareCharactersData(characters: Character[]) {
-  return characters.map(convertGender).map(camelize);
-}
-
 function CharactersSection() {
-  const [page, setPage] = useState(1);
+  const { error, data, isFetching, fetchNextPage, hasNextPage } =
+    useInfiniteQuery<CharactersResponse, Error>(
+      ["people"],
+      async ({ pageParam = 1 }) => {
+        const res: CharactersResponse = await fetchPeople(pageParam);
+        console.log(res);
+        return res;
+      },
+      {
+        getNextPageParam: (lastPage) => {
+          console.log("^^", lastPage.next);
+          if (!lastPage.next) {
+            return null;
+          }
 
-  const { error, data, isFetching } = useQuery<CharactersResponse, Error>({
-    queryKey: ["people", page],
-    keepPreviousData: true,
-    queryFn: () => fetchPeople(page),
-  });
-
-  const characters = prepareCharactersData(data?.results || []);
+          const url = new URL(lastPage.next);
+          const prev = url.searchParams.get("page");
+          return prev;
+        },
+      }
+    );
 
   return (
     <section css={charactersSectionStyles}>
@@ -56,18 +51,17 @@ function CharactersSection() {
           <LanguageSwitcher />
         </div>
         <h2 css={charactersSectionTitleStyles}>
-          {characters.length}{" "}
+          {/* {characters.length}{" "} */}
           <span css={charactersSectionTitleEmphasisStyles}>Characters</span> for
           you to choose your favorite
         </h2>
         <div css={charactersSectionCharactersStyles}>
           <CharactersList
             isLoading={isFetching}
-            characters={characters}
+            characters={data}
             error={error}
-            setPage={setPage}
-            hasPrevious={Boolean(data?.previous)}
-            hasMore={Boolean(data?.next)}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
           />
         </div>
       </Container>

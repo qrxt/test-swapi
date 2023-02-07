@@ -16,10 +16,6 @@ export const buttonStyles = (theme: ButtonTheme) => {
   return css`
     ${buttonThemes[theme]}
 
-    &:active {
-      box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.09);
-    }
-
     display: block;
     text-align: center;
     text-decoration: none;
@@ -32,5 +28,14 @@ export const buttonStyles = (theme: ButtonTheme) => {
     border-radius: 11px;
     box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.18);
     border: none;
+
+    &:active:not(:disabled) {
+      box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.09);
+    }
+
+    &:disabled {
+      background: ${colors.lightGreen};
+      cursor: not-allowed;
+    }
   `;
 };

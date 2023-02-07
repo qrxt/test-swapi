@@ -1,75 +1,133 @@
 import { css } from "@emotion/react";
+import Button from "components/Button";
 import CharacterCard from "components/CharacterCard";
-import IconButton from "components/IconButton";
 import LoadingIndicator from "components/LoadingIndicator";
+import { camelize } from "lib/camelize";
 import React from "react";
-import { Character } from "types/people";
+import {
+  FetchNextPageOptions,
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "react-query";
+import { Character, Gender } from "types/people";
+import { Response } from "types/response";
 import {
   charactersListItemStyles,
   charactersListStyles,
 } from "./CharactersList.style";
 
+type CharactersResponse = Response<Character>;
+
 interface CharactersListProps {
-  characters: Character[];
+  characters?: InfiniteData<CharactersResponse>; //Character[];
   isLoading: boolean;
   error: Error | null;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  hasPrevious: boolean;
-  hasMore: boolean;
+  fetchNextPage: (
+    options?: FetchNextPageOptions | undefined
+  ) => Promise<InfiniteQueryObserverResult<CharactersResponse, Error>>;
+  hasNextPage: boolean;
 }
 
+function convertGender(character: Character) {
+  const genders: Record<string, Gender> = {
+    "n/a": Gender.NotApplicable,
+    none: Gender.NotApplicable,
+  };
+
+  return {
+    ...character,
+    gender: genders[character.gender] || character.gender,
+  };
+}
+
+function prepareCharacterData(character: Character) {
+  return convertGender(camelize(character));
+}
+
+function CharactersListItem({ character }: { character: Character }) {
+  const preparedCharacter = prepareCharacterData(character);
+  return (
+    <li css={charactersListItemStyles}>
+      <CharacterCard character={preparedCharacter} />
+    </li>
+  );
+}
+
+const MemoizedCharactersListItem = React.memo(CharactersListItem);
+
 function CharactersList(props: CharactersListProps) {
-  const { characters, isLoading, error, setPage, hasPrevious, hasMore } = props;
+  const {
+    characters = {
+      pages: [],
+    },
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+  } = props;
+
+  if (isLoading && !characters.pages.length) {
+    return (
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
+        <LoadingIndicator size="80px" />
+      </div>
+    );
+  }
 
   if (error) return <p>{`An error has occurred: ${error}`}</p>;
+
+  console.log("&&", hasNextPage);
 
   return (
     <div>
       <ul css={charactersListStyles}>
-        {characters.map((character, idx) => (
-          <li key={idx} css={charactersListItemStyles}>
-            <CharacterCard character={character} />
-          </li>
-        ))}
+        {characters.pages.map((page) => {
+          return page.results.map((character, idx) => {
+            return (
+              <MemoizedCharactersListItem character={character} key={idx} />
+            );
+          });
+        })}
       </ul>
 
       <div
         css={css`
           display: flex;
-          justify-content: flex-end;
-          padding: 10px 0;
+          justify-content: center;
           align-items: center;
+          flex-direction: column;
+          margin-bottom: 20px;
         `}
       >
-        {isLoading && (
-          <div
-            css={css`
-              margin-right: 20px;
-            `}
-          >
-            <LoadingIndicator />
-          </div>
-        )}
-
-        <IconButton
-          css={css`
-            margin-right: 10px;
+        <Button
+          theme="green"
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isLoading}
+          customStyles={css`
+            width: 250px;
+            display: flex;
+            position: relative;
+            justify-content: center;
+            text-align: center;
           `}
-          disabled={!hasPrevious}
-          onClick={() => {
-            setPage((prev: number) => prev - 1);
-          }}
         >
-          {"<"}
-        </IconButton>
-        <IconButton
-          disabled={!hasMore}
-          onClick={() => {
-            setPage((prev: number) => prev + 1);
-          }}
-        >
-          {">"}
-        </IconButton>
+          {isLoading && (
+            <div
+              css={css`
+                position: absolute;
+                right: 25px;
+              `}
+            >
+              <LoadingIndicator />
+            </div>
+          )}
+          load more
+        </Button>
       </div>
     </div>
   );
