@@ -10,7 +10,7 @@ function CharactersPage() {
         StarWars characters list application
       </VisuallyHidden>
       <Header />
-      <CharactersSection characters={[]} />
+      <CharactersSection />
     </>
   );
 }
