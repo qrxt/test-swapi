@@ -1,6 +1,7 @@
 import Button from "components/Button";
 import Container from "components/Container";
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   mainSectionDescriptionStyles,
   mainSectionInnerStyles,
@@ -28,6 +29,8 @@ function MainSection() {
             theme="orange"
             customStyles={mainSectionMoreButtonStyles}
             type="button"
+            as={Link}
+            to="/characters"
           >
             See more...
           </Button>

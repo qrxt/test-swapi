@@ -2,7 +2,6 @@ import Button from "components/Button";
 import CharacterCard from "components/CharacterCard";
 import LoadingIndicator from "components/LoadingIndicator";
 import { camelize } from "lib/camelize";
-import { colors } from "lib/theme";
 import React, { useState } from "react";
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import Select from "react-select";
@@ -18,10 +17,11 @@ import {
   loadMoreIndicatorStyles,
   loadMoreLoadingIndicatorStyles,
   loadMoreWrapperStyles,
-  modalStyles,
 } from "./CharactersList.style";
 import Modal from "react-modal";
 import CharacterProfile from "components/CharacterProfile";
+import { ClassNames } from "@emotion/react";
+import { testStyles } from "components/CharacterProfile/CharacterProfile.style";
 
 type CharactersResponse = Response<Character>;
 
@@ -51,10 +51,23 @@ function prepareCharacterData(character: Character) {
   return convertGender(camelize(character));
 }
 
-function CharactersListItem({ character }: { character: Character }) {
+interface CharactersListItemProps {
+  character: Character;
+  setSelectedCharacter: React.Dispatch<React.SetStateAction<Character | null>>;
+  setIsCharacterOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function CharactersListItem(props: CharactersListItemProps) {
+  const { character, setSelectedCharacter, setIsCharacterOpen } = props;
   // const preparedCharacter = prepareCharacterData(character);
   return (
-    <li css={charactersListItemStyles}>
+    <li
+      css={charactersListItemStyles}
+      onClick={() => {
+        setSelectedCharacter(character);
+        setIsCharacterOpen(true);
+      }}
+    >
       <CharacterCard character={character} />
     </li>
   );
@@ -82,6 +95,7 @@ function CharactersList(props: CharactersListProps) {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
+  const [isCharacterOpen, setIsCharacterOpen] = useState(false);
   const [filter, setFilter] = useState<Filter | null>(
     filterOptions.find(({ value }) => value === "all") || null
   );
@@ -106,15 +120,31 @@ function CharactersList(props: CharactersListProps) {
 
   return (
     <div>
-      <Modal
-        isOpen={true}
-        // onAfterOpen={afterOpenModal}
-        // onRequestClose={closeModal}
-        style={modalStyles}
-        contentLabel="Example Modal"
-      >
-        <CharacterProfile />
-      </Modal>
+      <ClassNames>
+        {({ css }) =>
+          selectedCharacter && (
+            <Modal
+              onRequestClose={() => {
+                setIsCharacterOpen(false);
+              }}
+              isOpen={isCharacterOpen}
+              overlayClassName={{
+                base: "overlay-base",
+                afterOpen: "overlay-after",
+                beforeClose: "overlay-before",
+              }}
+              className={{
+                base: "content-base",
+                afterOpen: "content-after",
+                beforeClose: "content-before",
+              }}
+              portalClassName={css(testStyles)}
+            >
+              <CharacterProfile character={selectedCharacter} />
+            </Modal>
+          )
+        }
+      </ClassNames>
 
       <div css={filterSelectWrapperStyles}>
         <label css={filterSelectLabelStyles}>
@@ -134,7 +164,12 @@ function CharactersList(props: CharactersListProps) {
 
       <ul css={charactersListStyles}>
         {filteredCharacters.map((char, idx) => (
-          <MemoizedCharactersListItem character={char} key={idx} />
+          <MemoizedCharactersListItem
+            character={char}
+            setSelectedCharacter={setSelectedCharacter}
+            setIsCharacterOpen={setIsCharacterOpen}
+            key={idx}
+          />
         ))}
       </ul>
 

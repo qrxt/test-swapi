@@ -13,4 +13,6 @@ export interface Character {
   gender: Gender;
   birthYear: string;
   eyeColor: EyeColor;
+  hairColor: string; // TODO: union
+  skinColor: string; // TODO: union
 }

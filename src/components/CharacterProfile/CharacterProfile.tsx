@@ -23,7 +23,7 @@ interface CharacterProfileProps {
 }
 
 function CharacterProfile(props: CharacterProfileProps) {
-  const { character = {} } = props;
+  const { character } = props;
   const {
     mass,
     height,
@@ -37,7 +37,7 @@ function CharacterProfile(props: CharacterProfileProps) {
 
   return (
     <article css={characterProfileStyles}>
-      <div css={characterProfilePicStyles}>
+      <div css={characterProfilePicStyles(gender)}>
         <ul css={tagsListStyles}>
           {gender !== "NotApplicable" && (
             <li css={tagsListItemStyles}>
@@ -54,36 +54,36 @@ function CharacterProfile(props: CharacterProfileProps) {
 
       <div css={characterProfileDataStyles}>
         <h2 css={characterProfileNameStyles}>{name}</h2>
+        <dl css={characteristicsListStyles}>
+          <div css={characteristicsListItemStyles}>
+            <dt css={characteristicsDefinitionStyles}>hair color:</dt>
+            <dd css={characteristicsValueStyles}>{hairColor}</dd>
+          </div>
+
+          <div css={characteristicsListItemStyles}>
+            <dt css={characteristicsDefinitionStyles}>skin color:</dt>
+            <dd css={characteristicsValueStyles}>{skinColor}</dd>
+          </div>
+
+          <div css={characteristicsListItemStyles}>
+            <dt css={characteristicsDefinitionStyles}>eye color:</dt>
+            <dd css={characteristicsValueStyles}>{eyeColor}</dd>
+          </div>
+        </dl>
+
+        <ul css={badgesListStyles}>
+          {mass !== "unknown" && (
+            <li css={badgesListItemStyles}>
+              <Badge value={String(mass)} description={"mass"} />
+            </li>
+          )}
+          {height !== "unknown" && (
+            <li css={badgesListItemStyles}>
+              <Badge value={String(height)} description={"height"} />
+            </li>
+          )}
+        </ul>
       </div>
-      <dl css={characteristicsListStyles}>
-        <div css={characteristicsListItemStyles}>
-          <dt css={characteristicsDefinitionStyles}>hair color:</dt>
-          <dd css={characteristicsValueStyles}>{hairColor}</dd>
-        </div>
-
-        <div css={characteristicsListItemStyles}>
-          <dt css={characteristicsDefinitionStyles}>skin color:</dt>
-          <dd css={characteristicsValueStyles}>{skinColor}</dd>
-        </div>
-
-        <div css={characteristicsListItemStyles}>
-          <dt css={characteristicsDefinitionStyles}>eye color:</dt>
-          <dd css={characteristicsValueStyles}>{eyeColor}</dd>
-        </div>
-      </dl>
-
-      <ul css={badgesListStyles}>
-        {mass !== "unknown" && (
-          <li css={badgesListItemStyles}>
-            <Badge value={mass} description={"mass"} />
-          </li>
-        )}
-        {height !== "unknown" && (
-          <li css={badgesListItemStyles}>
-            <Badge value={height} description={"height"} />
-          </li>
-        )}
-      </ul>
     </article>
   );
 }
