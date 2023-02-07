@@ -53,7 +53,12 @@ function CharacterProfile(props: CharacterProfileProps) {
       </div>
 
       <div css={characterProfileDataStyles}>
-        <h2 css={characterProfileNameStyles}>{name}</h2>
+        <h2
+          css={characterProfileNameStyles}
+          data-testid="character-profile-name"
+        >
+          {name}
+        </h2>
         <dl css={characteristicsListStyles}>
           <div css={characteristicsListItemStyles}>
             <dt css={characteristicsDefinitionStyles}>hair color:</dt>
