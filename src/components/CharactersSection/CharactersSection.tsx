@@ -8,10 +8,11 @@ import {
 } from "./CharactersSection.style";
 import Container from "components/Container";
 import LanguageSwitcher from "components/LanguageSwitcher";
-import CharactersListContainer from "components/CharactersList/CharactersListContainer";
 import { useQuery } from "react-query";
 import { Character, Gender } from "types/people";
 import { camelize } from "lib/camelize";
+import CharactersList from "components/CharactersList";
+import { Response } from "types/response";
 
 function convertGender(character: Character) {
   const genders: Record<string, Gender> = {
@@ -25,24 +26,28 @@ function convertGender(character: Character) {
   };
 }
 
+type CharactersResponse = Response<Character>;
+
+function fetchPeople(page = 1) {
+  return fetch(`https://swapi.dev/api/people?page=${page}`).then((res) =>
+    res.json()
+  );
+}
+
+function prepareCharactersData(characters: Character[]) {
+  return characters.map(convertGender).map(camelize);
+}
+
 function CharactersSection() {
-  const {
-    isLoading,
-    error,
-    data = [],
-  } = useQuery<Character[], Error>({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people?page=2")
-        .then((res) => res.json())
-        .then((x) => {
-          console.log(x);
-          return x;
-        })
-        .then((response) => response.results)
-        .then((characters) => characters.map(camelize))
-        .then((characters) => characters.map(convertGender)),
+  const [page, setPage] = useState(1);
+
+  const { error, data, isFetching } = useQuery<CharactersResponse, Error>({
+    queryKey: ["people", page],
+    keepPreviousData: true,
+    queryFn: () => fetchPeople(page),
   });
+
+  const characters = prepareCharactersData(data?.results || []);
 
   return (
     <section css={charactersSectionStyles}>
@@ -51,15 +56,18 @@ function CharactersSection() {
           <LanguageSwitcher />
         </div>
         <h2 css={charactersSectionTitleStyles}>
-          {data.length}{" "}
+          {characters.length}{" "}
           <span css={charactersSectionTitleEmphasisStyles}>Characters</span> for
           you to choose your favorite
         </h2>
         <div css={charactersSectionCharactersStyles}>
-          <CharactersListContainer
-            isLoading={isLoading}
-            data={data}
+          <CharactersList
+            isLoading={isFetching}
+            characters={characters}
             error={error}
+            setPage={setPage}
+            hasPrevious={Boolean(data?.previous)}
+            hasMore={Boolean(data?.next)}
           />
         </div>
       </Container>
