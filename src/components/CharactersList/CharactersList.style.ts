@@ -40,3 +40,8 @@ export const loadMoreLoadingIndicatorStyles = css`
   position: absolute;
   right: 25px;
 `;
+
+export const filterSelectWrapperStyles = css`
+  margin-bottom: 25px;
+  width: 150px;
+`;

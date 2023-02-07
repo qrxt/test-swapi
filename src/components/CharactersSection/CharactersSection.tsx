@@ -21,32 +21,40 @@ function fetchPeople(page = 1) {
   );
 }
 
-function CharactersSection() {
-  const { error, data, isFetching, fetchNextPage, hasNextPage } =
-    useInfiniteQuery<CharactersResponse, Error>(
-      ["people"],
-      async ({ pageParam = 1 }) => {
-        const res: CharactersResponse = await fetchPeople(pageParam);
-        return res;
-      },
-      {
-        getNextPageParam: (lastPage) => {
-          if (!lastPage.next) {
-            return null;
-          }
+function last<T>(arr: T[]) {
+  return arr[arr.length - 1];
+}
 
-          const url = new URL(lastPage.next);
-          const prev = url.searchParams.get("page");
-          return prev;
-        },
-      }
-    );
+function CharactersSection() {
+  const { error, data, isFetching, fetchNextPage } = useInfiniteQuery<
+    CharactersResponse,
+    Error
+  >(
+    ["people"],
+    async ({ pageParam = 1 }) => {
+      const res: CharactersResponse = await fetchPeople(pageParam);
+      return res;
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.next) {
+          return null;
+        }
+
+        const url = new URL(lastPage.next);
+        const prev = url.searchParams.get("page");
+        return prev;
+      },
+    }
+  );
 
   const characters =
     data?.pages.reduce<Character[]>(
       (acc, page) => [...acc, ...page.results],
       []
     ) || [];
+  const lastEl = last(data?.pages || []);
+  const hasMore = lastEl && Boolean(lastEl.next);
 
   return (
     <section css={charactersSectionStyles}>
@@ -65,7 +73,7 @@ function CharactersSection() {
             characters={characters}
             error={error}
             fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage || true}
+            hasNextPage={hasMore}
           />
         </div>
       </Container>

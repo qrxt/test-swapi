@@ -2,13 +2,15 @@ import Button from "components/Button";
 import CharacterCard from "components/CharacterCard";
 import LoadingIndicator from "components/LoadingIndicator";
 import { camelize } from "lib/camelize";
-import React from "react";
+import React, { useState } from "react";
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
+import Select from "react-select";
 import { Character, Gender } from "types/people";
 import { Response } from "types/response";
 import {
   charactersListItemStyles,
   charactersListStyles,
+  filterSelectWrapperStyles,
   loadMoreButtonStyles,
   loadMoreIndicatorStyles,
   loadMoreLoadingIndicatorStyles,
@@ -44,15 +46,24 @@ function prepareCharacterData(character: Character) {
 }
 
 function CharactersListItem({ character }: { character: Character }) {
-  const preparedCharacter = prepareCharacterData(character);
+  // const preparedCharacter = prepareCharacterData(character);
   return (
     <li css={charactersListItemStyles}>
-      <CharacterCard character={preparedCharacter} />
+      <CharacterCard character={character} />
     </li>
   );
 }
 
 const MemoizedCharactersListItem = React.memo(CharactersListItem);
+
+type Filter = { value: string; label: string };
+const filterOptions: Filter[] = [
+  { value: "all", label: "All" },
+  { value: "brown", label: "Brown" },
+  { value: "red", label: "Red" },
+  { value: "blue", label: "Blue" },
+  { value: "white", label: "White" },
+];
 
 function CharactersList(props: CharactersListProps) {
   const {
@@ -62,6 +73,9 @@ function CharactersList(props: CharactersListProps) {
     fetchNextPage,
     hasNextPage,
   } = props;
+  const [filter, setFilter] = useState<Filter | null>(
+    filterOptions.find(({ value }) => value === "all") || null
+  );
 
   if (isLoading && !characters.length) {
     return (
@@ -71,12 +85,29 @@ function CharactersList(props: CharactersListProps) {
     );
   }
 
+  const preparedCharacters = characters.map(prepareCharacterData);
+  const filteredCharacters =
+    filter?.value === "all"
+      ? preparedCharacters
+      : preparedCharacters.filter(
+          (character) => character.eyeColor === filter?.value
+        );
+
   if (error) return <p>{`An error has occurred: ${error}`}</p>;
 
   return (
     <div>
+      <div css={filterSelectWrapperStyles}>
+        <Select
+          options={filterOptions}
+          value={filter}
+          defaultValue={filter}
+          onChange={(val) => setFilter(val)}
+        />
+      </div>
+
       <ul css={charactersListStyles}>
-        {characters.map((char, idx) => (
+        {filteredCharacters.map((char, idx) => (
           <MemoizedCharactersListItem character={char} key={idx} />
         ))}
       </ul>
