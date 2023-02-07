@@ -60,7 +60,8 @@ function CharactersSection() {
     <section css={charactersSectionStyles}>
       <Container>
         <div css={charactersSectionLanguageStyles}>
-          <LanguageSwitcher />
+          {/* Here be dragons... */}
+          {/* <LanguageSwitcher /> */}
         </div>
         <h2 css={charactersSectionTitleStyles}>
           {characters.length}{" "}
