@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 export const languageSwitcherWrapperStyles = css`
   display: flex;
+  align-items: center;
 `;
 
 export const languageSwitcherStyles = css`

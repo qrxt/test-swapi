@@ -8,5 +8,5 @@ const snakeToCamel = (str: string) =>
 export function camelize(obj: object) {
   return Object.entries(obj).reduce((acc, [key, value]) => {
     return { ...acc, [snakeToCamel(key)]: value };
-  });
+  }, {});
 }

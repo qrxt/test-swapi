@@ -12,6 +12,7 @@ import {
   characterTagsItemStyles,
   characterTagsStyles,
 } from "./CharacterCard.style";
+import { match } from "ts-pattern";
 
 interface CharacterCardProps {
   character: Character;
@@ -22,27 +23,32 @@ function CharacterCard(props: CharacterCardProps) {
   const { character, customStyles = css`` } = props;
   const { name, mass, height, gender, birthYear } = character;
 
-  console.log(birthYear);
-
   return (
     <Card title={name} customStyles={[characterCardStyles, customStyles]}>
       <ul css={characterCharacteristicsStyles}>
-        <li css={characterCharacteristicsItemStyles}>
-          <Badge value={mass} description={"mass"} />
-        </li>
-        <li css={characterCharacteristicsItemStyles}>
-          <Badge value={height} description={"height"} />
-        </li>
+        {mass !== "unknown" && (
+          <li css={characterCharacteristicsItemStyles}>
+            <Badge value={mass} description={"mass"} />
+          </li>
+        )}
+        {height !== "unknown" && (
+          <li css={characterCharacteristicsItemStyles}>
+            <Badge value={height} description={"height"} />
+          </li>
+        )}
       </ul>
+
       <ul css={characterTagsStyles}>
-        {gender === "NotApplicable" ? null : (
+        {gender !== "NotApplicable" && (
           <li css={characterTagsItemStyles}>
             <GenderTag gender={gender} />
           </li>
         )}
-        <li css={characterTagsItemStyles}>
-          <Tag theme="cyan">{birthYear}</Tag>
-        </li>
+        {birthYear !== "unknown" && (
+          <li css={characterTagsItemStyles}>
+            <Tag theme="cyan">{birthYear}</Tag>
+          </li>
+        )}
       </ul>
     </Card>
   );

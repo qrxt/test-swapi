@@ -15,6 +15,7 @@ interface GenderTagProps {
 
 function GenderTag(props: GenderTagProps) {
   const { gender } = props;
+  console.log(gender, genderToTagTheme[gender]);
 
   return <Tag theme={genderToTagTheme[gender]}>{gender}</Tag>;
 }

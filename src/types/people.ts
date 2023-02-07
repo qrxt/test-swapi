@@ -1,14 +1,14 @@
 export enum Gender {
-  Male = "Male",
-  Female = "Female",
-  Unknown = "Hermaphrodite",
+  Male = "male",
+  Female = "female",
+  Unknown = "hermaphrodite",
   NotApplicable = "NotApplicable",
 }
 
 export interface Character {
   name: string;
-  height: number;
-  mass: number;
+  height: number | "unknown";
+  mass: number | "unknown";
   gender: Gender;
   birthYear: string;
 }

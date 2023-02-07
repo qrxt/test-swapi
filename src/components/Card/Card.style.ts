@@ -7,6 +7,7 @@ export const cardStyles = css`
   text-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
   padding: 6px 25px 12px;
   border-radius: 8px;
+  min-height: 142px;
 `;
 
 export const cardTitleStyles = css`

@@ -28,3 +28,7 @@ export const badgeTextStyles = css`
   font-size: 12px;
   line-height: 14px;
 `;
+
+export const badgeCursorStyles = css`
+  cursor: help;
+`;
