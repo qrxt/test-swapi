@@ -18,7 +18,10 @@ import {
   loadMoreIndicatorStyles,
   loadMoreLoadingIndicatorStyles,
   loadMoreWrapperStyles,
+  modalStyles,
 } from "./CharactersList.style";
+import Modal from "react-modal";
+import CharacterProfile from "components/CharacterProfile";
 
 type CharactersResponse = Response<Character>;
 
@@ -76,6 +79,9 @@ function CharactersList(props: CharactersListProps) {
     fetchNextPage,
     hasNextPage,
   } = props;
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
   const [filter, setFilter] = useState<Filter | null>(
     filterOptions.find(({ value }) => value === "all") || null
   );
@@ -100,6 +106,16 @@ function CharactersList(props: CharactersListProps) {
 
   return (
     <div>
+      <Modal
+        isOpen={true}
+        // onAfterOpen={afterOpenModal}
+        // onRequestClose={closeModal}
+        style={modalStyles}
+        contentLabel="Example Modal"
+      >
+        <CharacterProfile />
+      </Modal>
+
       <div css={filterSelectWrapperStyles}>
         <label css={filterSelectLabelStyles}>
           <span>eye color</span>

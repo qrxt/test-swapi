@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { colors } from "lib/theme";
 import { GroupBase, StylesConfig } from "react-select";
 import { Filter } from "./CharactersList";
+import Modal from "react-modal";
 
 export const charactersListStyles = css`
   display: grid;
@@ -85,4 +86,24 @@ export const filterSelectStyles: StylesConfig<
     ...baseStyles,
     color: colors.black,
   }),
+};
+
+export const modalStyles: Modal.Styles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "796px",
+    minHeight: "371px",
+    height: "371px",
+    padding: 0,
+    borderRadius: 16,
+    border: "none",
+  },
+  overlay: {
+    background: "rgba(33, 33, 33, 0.5)",
+  },
 };
