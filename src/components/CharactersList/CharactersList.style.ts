@@ -14,3 +14,29 @@ export const charactersListItemStyles = css`
   width: 100%;
   margin-bottom: 45px;
 `;
+
+export const loadMoreIndicatorStyles = css`
+  display: flex;
+  justify-content: center;
+`;
+
+export const loadMoreWrapperStyles = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
+export const loadMoreButtonStyles = css`
+  width: 250px;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  text-align: center;
+`;
+
+export const loadMoreLoadingIndicatorStyles = css`
+  position: absolute;
+  right: 25px;
+`;

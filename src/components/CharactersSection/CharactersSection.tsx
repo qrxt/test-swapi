@@ -27,12 +27,10 @@ function CharactersSection() {
       ["people"],
       async ({ pageParam = 1 }) => {
         const res: CharactersResponse = await fetchPeople(pageParam);
-        console.log(res);
         return res;
       },
       {
         getNextPageParam: (lastPage) => {
-          console.log("^^", lastPage.next);
           if (!lastPage.next) {
             return null;
           }
@@ -44,6 +42,12 @@ function CharactersSection() {
       }
     );
 
+  const characters =
+    data?.pages.reduce<Character[]>(
+      (acc, page) => [...acc, ...page.results],
+      []
+    ) || [];
+
   return (
     <section css={charactersSectionStyles}>
       <Container>
@@ -51,17 +55,17 @@ function CharactersSection() {
           <LanguageSwitcher />
         </div>
         <h2 css={charactersSectionTitleStyles}>
-          {/* {characters.length}{" "} */}
+          {characters.length}{" "}
           <span css={charactersSectionTitleEmphasisStyles}>Characters</span> for
           you to choose your favorite
         </h2>
         <div css={charactersSectionCharactersStyles}>
           <CharactersList
             isLoading={isFetching}
-            characters={data}
+            characters={characters}
             error={error}
             fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
+            hasNextPage={hasNextPage || true}
           />
         </div>
       </Container>

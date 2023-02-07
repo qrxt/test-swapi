@@ -1,25 +1,24 @@
-import { css } from "@emotion/react";
 import Button from "components/Button";
 import CharacterCard from "components/CharacterCard";
 import LoadingIndicator from "components/LoadingIndicator";
 import { camelize } from "lib/camelize";
 import React from "react";
-import {
-  FetchNextPageOptions,
-  InfiniteData,
-  InfiniteQueryObserverResult,
-} from "react-query";
+import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import { Character, Gender } from "types/people";
 import { Response } from "types/response";
 import {
   charactersListItemStyles,
   charactersListStyles,
+  loadMoreButtonStyles,
+  loadMoreIndicatorStyles,
+  loadMoreLoadingIndicatorStyles,
+  loadMoreWrapperStyles,
 } from "./CharactersList.style";
 
 type CharactersResponse = Response<Character>;
 
 interface CharactersListProps {
-  characters?: InfiniteData<CharactersResponse>; //Character[];
+  characters: Character[];
   isLoading: boolean;
   error: Error | null;
   fetchNextPage: (
@@ -57,23 +56,16 @@ const MemoizedCharactersListItem = React.memo(CharactersListItem);
 
 function CharactersList(props: CharactersListProps) {
   const {
-    characters = {
-      pages: [],
-    },
+    characters = [],
     isLoading,
     error,
     fetchNextPage,
     hasNextPage,
   } = props;
 
-  if (isLoading && !characters.pages.length) {
+  if (isLoading && !characters.length) {
     return (
-      <div
-        css={css`
-          display: flex;
-          justify-content: center;
-        `}
-      >
+      <div css={loadMoreIndicatorStyles}>
         <LoadingIndicator size="80px" />
       </div>
     );
@@ -81,48 +73,23 @@ function CharactersList(props: CharactersListProps) {
 
   if (error) return <p>{`An error has occurred: ${error}`}</p>;
 
-  console.log("&&", hasNextPage);
-
   return (
     <div>
       <ul css={charactersListStyles}>
-        {characters.pages.map((page) => {
-          return page.results.map((character, idx) => {
-            return (
-              <MemoizedCharactersListItem character={character} key={idx} />
-            );
-          });
-        })}
+        {characters.map((char, idx) => (
+          <MemoizedCharactersListItem character={char} key={idx} />
+        ))}
       </ul>
 
-      <div
-        css={css`
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          margin-bottom: 20px;
-        `}
-      >
+      <div css={loadMoreWrapperStyles}>
         <Button
           theme="green"
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isLoading}
-          customStyles={css`
-            width: 250px;
-            display: flex;
-            position: relative;
-            justify-content: center;
-            text-align: center;
-          `}
+          customStyles={loadMoreButtonStyles}
         >
           {isLoading && (
-            <div
-              css={css`
-                position: absolute;
-                right: 25px;
-              `}
-            >
+            <div css={loadMoreLoadingIndicatorStyles}>
               <LoadingIndicator />
             </div>
           )}
