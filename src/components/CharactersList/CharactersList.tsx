@@ -2,6 +2,7 @@ import Button from "components/Button";
 import CharacterCard from "components/CharacterCard";
 import LoadingIndicator from "components/LoadingIndicator";
 import { camelize } from "lib/camelize";
+import { colors } from "lib/theme";
 import React, { useState } from "react";
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query";
 import Select from "react-select";
@@ -10,6 +11,8 @@ import { Response } from "types/response";
 import {
   charactersListItemStyles,
   charactersListStyles,
+  filterSelectLabelStyles,
+  filterSelectStyles,
   filterSelectWrapperStyles,
   loadMoreButtonStyles,
   loadMoreIndicatorStyles,
@@ -56,7 +59,7 @@ function CharactersListItem({ character }: { character: Character }) {
 
 const MemoizedCharactersListItem = React.memo(CharactersListItem);
 
-type Filter = { value: string; label: string };
+export type Filter = { value: string; label: string };
 const filterOptions: Filter[] = [
   { value: "all", label: "All" },
   { value: "brown", label: "Brown" },
@@ -98,12 +101,19 @@ function CharactersList(props: CharactersListProps) {
   return (
     <div>
       <div css={filterSelectWrapperStyles}>
-        <Select
-          options={filterOptions}
-          value={filter}
-          defaultValue={filter}
-          onChange={(val) => setFilter(val)}
-        />
+        <label css={filterSelectLabelStyles}>
+          <span>eye color</span>
+          <Select
+            options={filterOptions}
+            value={filter}
+            defaultValue={filter}
+            onChange={(val) => setFilter(val)}
+            components={{
+              IndicatorSeparator: () => null,
+            }}
+            styles={filterSelectStyles}
+          />
+        </label>
       </div>
 
       <ul css={charactersListStyles}>

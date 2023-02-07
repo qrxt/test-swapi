@@ -1,4 +1,7 @@
 import { css } from "@emotion/react";
+import { colors } from "lib/theme";
+import { GroupBase, StylesConfig } from "react-select";
+import { Filter } from "./CharactersList";
 
 export const charactersListStyles = css`
   display: grid;
@@ -43,5 +46,43 @@ export const loadMoreLoadingIndicatorStyles = css`
 
 export const filterSelectWrapperStyles = css`
   margin-bottom: 25px;
-  width: 150px;
+  width: 210px;
 `;
+
+export const filterSelectLabelStyles = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const filterSelectStyles: StylesConfig<
+  Filter,
+  false,
+  GroupBase<Filter>
+> = {
+  container: (baseStyles) => ({
+    ...baseStyles,
+    width: "135px",
+  }),
+  control: (baseStyles) => ({
+    ...baseStyles,
+    borderColor: "transparent",
+    background: colors.lightGray,
+    borderRadius: "5px",
+    boxShadow: "2px 2px 2px rgba(33, 33, 33, 0.1)",
+    "&:hover": {
+      borderColor: "transparent",
+    },
+    textAlign: "center",
+    position: "relative",
+  }),
+  indicatorsContainer: (baseStyles) => ({
+    ...baseStyles,
+    position: "absolute",
+    right: 0,
+  }),
+  dropdownIndicator: (baseStyles) => ({
+    ...baseStyles,
+    color: colors.black,
+  }),
+};
