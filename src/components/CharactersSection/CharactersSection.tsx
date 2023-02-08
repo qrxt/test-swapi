@@ -53,8 +53,9 @@ function CharactersSection() {
       (acc, page) => [...acc, ...page.results],
       []
     ) || [];
-  const lastEl = last(data?.pages || []);
-  const hasMore = lastEl && Boolean(lastEl.next);
+  const lastPage = last(data?.pages || []);
+  const hasMore = lastPage && Boolean(lastPage.next);
+  const total = lastPage && lastPage.count;
 
   return (
     <section css={charactersSectionStyles}>
@@ -64,7 +65,7 @@ function CharactersSection() {
           {/* <LanguageSwitcher /> */}
         </div>
         <h2 css={charactersSectionTitleStyles}>
-          {characters.length}{" "}
+          {total}{" "}
           <span css={charactersSectionTitleEmphasisStyles}>Characters</span> for
           you to choose your favorite
         </h2>
