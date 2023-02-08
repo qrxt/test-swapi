@@ -85,6 +85,6 @@ npm run test
 
 ## Демо
 
-[Здесь, тык](https://test-infinite-scroll-six.vercel.app/)
+[Здесь, тык](https://test-swapi.vercel.app/)
 
 ![image](https://user-images.githubusercontent.com/46269438/217400730-ecfa9fa3-c9e4-4551-b785-79caff381aac.png)
