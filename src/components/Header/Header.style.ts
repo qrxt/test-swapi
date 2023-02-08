@@ -31,9 +31,6 @@ export const headerContentStyles = css`
   }
 `;
 
-// TODO: maybe move to another component
-// Menu
-
 export const menuStyles = css`
   font-family: ${fonts.primary};
 `;

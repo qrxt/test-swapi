@@ -109,12 +109,14 @@ function CharactersList(props: CharactersListProps) {
   }
 
   const preparedCharacters = characters.map(prepareCharacterData);
+  /* eslint-disable indent */
   const filteredCharacters =
     filter?.value === "all"
       ? preparedCharacters
       : preparedCharacters.filter(
           (character) => character.eyeColor === filter?.value
         );
+  /* eslint-enable indent */
 
   if (error) return <p>{`An error has occurred: ${error}`}</p>;
 

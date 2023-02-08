@@ -12,7 +12,6 @@ import {
   characterTagsItemStyles,
   characterTagsStyles,
 } from "./CharacterCard.style";
-import { match } from "ts-pattern";
 
 interface CharacterCardProps {
   character: Character;
@@ -28,12 +27,12 @@ function CharacterCard(props: CharacterCardProps) {
       <ul css={characterCharacteristicsStyles}>
         {mass !== "unknown" && (
           <li css={characterCharacteristicsItemStyles}>
-            <Badge value={mass} description={"mass"} />
+            <Badge value={String(mass)} description={"mass"} />
           </li>
         )}
         {height !== "unknown" && (
           <li css={characterCharacteristicsItemStyles}>
-            <Badge value={height} description={"height"} />
+            <Badge value={String(height)} description={"height"} />
           </li>
         )}
       </ul>

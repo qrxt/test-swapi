@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import emotionReset from "emotion-reset";
-import { colors } from "lib/theme";
 
 import karlaRegularWoff2 from "assets/fonts/karla-v23-latin-regular.woff2";
 import karlaRegularWoff from "assets/fonts/karla-v23-latin-regular.woff";

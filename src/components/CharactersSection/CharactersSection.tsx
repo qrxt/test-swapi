@@ -7,7 +7,6 @@ import {
   charactersSectionTitleStyles,
 } from "./CharactersSection.style";
 import Container from "components/Container";
-import LanguageSwitcher from "components/LanguageSwitcher";
 import { useInfiniteQuery } from "react-query";
 import { Character } from "types/people";
 import CharactersList from "components/CharactersList";

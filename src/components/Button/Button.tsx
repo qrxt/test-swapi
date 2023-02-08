@@ -14,7 +14,6 @@ const defaultElement = "button";
 export type ButtonProps<E extends ElementType> = ButtonOwnProps<E> &
   Omit<ComponentProps<E>, keyof ButtonOwnProps<E>>;
 
-// TODO: as parameter
 function Button<E extends ElementType = typeof defaultElement>(
   props: ButtonProps<E>
 ) {
