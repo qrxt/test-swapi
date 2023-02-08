@@ -86,6 +86,7 @@ export const characteristicsListStyles = css`
 `;
 export const characteristicsListItemStyles = css`
   display: flex;
+  align-items: center;
 `;
 export const characteristicsDefinitionStyles = css`
   margin-right: 5px;

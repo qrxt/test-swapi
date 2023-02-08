@@ -20,6 +20,7 @@ import {
 
 interface CharacterProfileProps {
   character: Character;
+  dataTestPrefix?: string;
 }
 
 function CharacterProfile(props: CharacterProfileProps) {
@@ -36,16 +37,22 @@ function CharacterProfile(props: CharacterProfileProps) {
   } = character;
 
   return (
-    <article css={characterProfileStyles}>
-      <div css={characterProfilePicStyles(gender)}>
-        <ul css={tagsListStyles}>
+    <article
+      css={characterProfileStyles}
+      data-testid="character-profile-wrapper"
+    >
+      <div
+        css={characterProfilePicStyles(gender)}
+        data-testid="character-profile-pic"
+      >
+        <ul css={tagsListStyles} data-testid="character-profile-tags">
           {gender !== "NotApplicable" && (
-            <li css={tagsListItemStyles}>
+            <li css={tagsListItemStyles} data-testid="character-profile-tag">
               <GenderTag gender={gender} />
             </li>
           )}
           {birthYear !== "unknown" && (
-            <li css={tagsListItemStyles}>
+            <li css={tagsListItemStyles} data-testid="character-profile-tag">
               <Tag theme="cyan">{birthYear}</Tag>
             </li>
           )}
@@ -61,18 +68,48 @@ function CharacterProfile(props: CharacterProfileProps) {
         </h2>
         <dl css={characteristicsListStyles}>
           <div css={characteristicsListItemStyles}>
-            <dt css={characteristicsDefinitionStyles}>hair color:</dt>
-            <dd css={characteristicsValueStyles}>{hairColor}</dd>
+            <dt
+              css={characteristicsDefinitionStyles}
+              data-testid="character-profile-hair-color-name"
+            >
+              hair color:
+            </dt>
+            <dd
+              css={characteristicsValueStyles}
+              data-testid="character-profile-hair-color-value"
+            >
+              {hairColor}
+            </dd>
           </div>
 
           <div css={characteristicsListItemStyles}>
-            <dt css={characteristicsDefinitionStyles}>skin color:</dt>
-            <dd css={characteristicsValueStyles}>{skinColor}</dd>
+            <dt
+              css={characteristicsDefinitionStyles}
+              data-testid="character-profile-skin-color-name"
+            >
+              skin color:
+            </dt>
+            <dd
+              css={characteristicsValueStyles}
+              data-testid="character-profile-skin-color-value"
+            >
+              {skinColor}
+            </dd>
           </div>
 
           <div css={characteristicsListItemStyles}>
-            <dt css={characteristicsDefinitionStyles}>eye color:</dt>
-            <dd css={characteristicsValueStyles}>{eyeColor}</dd>
+            <dt
+              css={characteristicsDefinitionStyles}
+              data-testid="character-profile-eye-color-name"
+            >
+              eye color:
+            </dt>
+            <dd
+              css={characteristicsValueStyles}
+              data-testid="character-profile-eye-color-value"
+            >
+              {eyeColor}
+            </dd>
           </div>
         </dl>
 
