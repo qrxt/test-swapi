@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { globalStyles } from "./App.styles";
 import { Global } from "@emotion/react";
 import { routerConfig } from "lib/routing";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Modal from "react-modal";
+import LoadingIndicator from "components/LoadingIndicator";
 
 export const routes = Object.values(routerConfig);
 const router = createBrowserRouter(routes);
@@ -17,7 +18,9 @@ function App() {
     <>
       <Global styles={globalStyles} />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <Suspense fallback={<LoadingIndicator />}>
+          <RouterProvider router={router} />
+        </Suspense>
       </QueryClientProvider>
     </>
   );
