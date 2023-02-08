@@ -1,7 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
+import MainPage from "components/pages/MainPage";
 import NotFoundPage from "components/pages/NotFoundPage";
-// import MainPage from "components/pages/MainPage";
-// import CharactersPage from "components/pages/CharactersPage";
+import CharactersPage from "components/pages/CharactersPage";
 import { RouteObject } from "react-router-dom";
 
 export enum AppRoutes {
@@ -19,26 +19,15 @@ export const routeNames: Record<AppRoutes, string> = {
   [AppRoutes.CHARACTERS_PAGE]: "Characters",
 };
 
-const Home = React.lazy(() => import("components/pages/MainPage"));
-const Characters = React.lazy(() => import("components/pages/CharactersPage"));
-
 export const routerConfig: Record<AppRoutes, RouteObject> = {
   [AppRoutes.MAIN_PAGE]: {
     path: routePath.mainPage,
-    element: (
-      <Suspense fallback={<p>...</p>}>
-        <Home />
-      </Suspense>
-    ),
-    errorElement: (
-      <Suspense fallback={<p>...</p>}>
-        <NotFoundPage />
-      </Suspense>
-    ),
+    element: <MainPage />,
+    errorElement: <NotFoundPage />,
   },
   [AppRoutes.CHARACTERS_PAGE]: {
     path: routePath.charactersPage,
-    element: <Characters />,
+    element: <CharactersPage />,
     errorElement: <NotFoundPage />,
   },
 };

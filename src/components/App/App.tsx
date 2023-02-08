@@ -6,6 +6,7 @@ import { routerConfig } from "lib/routing";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Modal from "react-modal";
 import LoadingIndicator from "components/LoadingIndicator";
+import Header from "components/Header";
 
 export const routes = Object.values(routerConfig);
 const router = createBrowserRouter(routes);
@@ -18,9 +19,7 @@ function App() {
     <>
       <Global styles={globalStyles} />
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<LoadingIndicator />}>
-          <RouterProvider router={router} />
-        </Suspense>
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </>
   );
